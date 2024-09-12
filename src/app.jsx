@@ -34,23 +34,26 @@ const cardsInfo = [
 ]
 
 const App = () => {
-  // const [click, setClick] = useState(false)
-  // const handleClick = () => setClick((click) => !click)
+  const [activeId, setActiveId] = useState(0)
 
-  const showAnswer = (element) => {
-    console.log(element)
-    const card = element.target
-    card.style.backgroundColor = "lightblue"
-    card.style.color = "#323232"
-  }
+  const handleClick = (id) =>
+    setActiveId((activeId) => (activeId === id ? 0 : id))
 
   return (
     <ul className="flashcards">
-      {cardsInfo.map(({ id, question, answer }) => (
-        <li key={id} className="card" onClick={showAnswer}>
-          {question}
-        </li>
-      ))}
+      {cardsInfo.map(({ id, question, answer }) => {
+        const active = id === activeId
+
+        return (
+          <li
+            key={id}
+            className={`card ${active ? "active" : ""}`}
+            onClick={() => handleClick(id)}
+          >
+            {active ? answer : question}
+          </li>
+        )
+      })}
     </ul>
   )
 }
